@@ -1,14 +1,19 @@
 import 'package:bloc_event_test/bloc/test/test_bloc.dart';
 import 'package:bloc_event_test/second_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'injection_container.dart' as di;
-import 'injection_container.dart';
 
 void main() async {
   await di.init();
   di.sl.allowReassignment = true;
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => TestBloc(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -36,8 +41,6 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  final testBloc = sl<TestBloc>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +53,8 @@ class _FirstPageState extends State<FirstPage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                debugPrint("page 1 hashcode : ${testBloc.hashCode}");
+                debugPrint(
+                    "page 1 hashcode : ${context.read<TestBloc>().hashCode}");
               },
               child: Text(
                 'Print bloc hashcode',

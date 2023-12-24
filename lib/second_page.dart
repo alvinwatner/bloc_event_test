@@ -1,15 +1,12 @@
 import 'package:bloc_event_test/bloc/test/test_bloc.dart';
 import 'package:flutter/material.dart';
-
-import 'injection_container.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtherPage extends StatelessWidget {
   const OtherPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final testBloc = sl<TestBloc>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Other Page"),
@@ -20,7 +17,8 @@ class OtherPage extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                debugPrint("page 2 hashcode : ${testBloc.hashCode}");
+                debugPrint(
+                    "page 2 hashcode : ${context.read<TestBloc>().hashCode}");
               },
               child: Text(
                 'Print bloc hashcode',
